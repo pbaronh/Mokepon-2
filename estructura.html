@@ -4,90 +4,44 @@
         <meta charset="utf-8"/>
         <title>  Mokemon Juego </title>
         <link rel="stylesheet" href="./style.css">
-
-        <meta name="viewport"content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <section id="seleccionar-mokemon">
             <h1  class="titulo"> MOKEMON 🔥🗻🌀💧</h1>
             <h2 class="eligemokemon"> Elige tu Mokemon: </h2> 
 
-         <div class="personajes">
-                  
-            <label class="tarjetanombre" for="furia" class="mokemones"> FURIA 
-                <input class=radios type= radio id= furia name= mascotas/> 
-                <div id="imagenfuria">            
-                <img src="./imagenes/furia.png" alt="furia" id="imagenfuria">
-            </div>   
-                
-            </label> 
-           
-            <label class="tarjetanombre" for="aqua" class="mokemones">Aqua 
-                <input class=radios type= radio id= aqua name= mascotas/>
-                <img src="./imagenes/aqua.png" alt="Aqua"> 
-            </label>
-                            
-            <label class="tarjetanombre" for="terror" class="mokemones">Terror
-                <input class=radios type= radio id= terror name= mascotas/>
-                <img src="./imagenes/terror.png" alt="Terror"> 
-            </label>
-            
-            <label class="tarjetanombre" for="air" class="mokemones">Air
-                <input class=radios type= radio id= air name= mascotas/>
-                <img src="./imagenes/air.png" alt="Air"> 
-            </label>
-            
-            <label class="tarjetanombre" for="feroz" class="mokemones">Feroz
-                <input class=radios type= radio id= feroz name= mascotas/>
-                <img src="./imagenes/feroz.png" alt="Feroz"> 
-            </label>
-            
-                    
-            <label class="tarjetanombre"  for="tilone" class="mokemones">Tilone
-                <input type= radio id= tilone name= mascotas/>
-                <img src="./imagenes/tilone.png" alt="Tilone"> 
-            </label> 
-                               
-            <label class="tarjetanombre" for="ayu" class="mokemones">Ayu
-                <input class=radios type= radio id= ayu name= mascotas/>
-                <img src="./imagenes/ayu.png" alt="Ayu"> 
-            </label>
-                        
-            <label class="tarjetanombre" for="armonia" class="mokemones">Armonia
-                <input class=radios type= radio id= armonia name= mascotas/>
-                <img src="./imagenes/armonia.png" alt="Armonia">                 
-            </label>
-           
-            
+         <div id="contenedortarjetas" class="personajes">          
         </div>
-
-            <td colspan="2"> <button class= "botonseleeccion" id="boton-seleccionar-mascota"> Seleccionar </button> 
-                               
-            
+            <td colspan="2"> <button class= "botonseleeccion" id="boton-seleccionar-mascota"> Seleccionar </button>    
         </section>
         
-       
+        <section id="mapa">
+            <h1  class="titulo"> MOKEMON 🔥🗻🌀💧</h1>
+            <h2> Recorre el mapa con tu mokemon</h2>
+            <canvas id="canvamapa"></canvas>
+            
+                <button class="botondireccion" onmouseup="detenermovimiento()" onmousedown="moverarriba()"> ⬆ </button>
+            <div id="botonesmover">
+                <button class="botondireccion" onmouseup="detenermovimiento()" onmousedown="moverizquierda()"> ⬅ </button>
+                <button class="botondireccion" onmouseup="detenermovimiento()" onmousedown="moverabajo()"> ⬇ </button>
+                <button class="botondireccion" onmouseup="detenermovimiento()" onmousedown="moverderecha()"> ➡ </button>
+                
+                
+            </div>
+        </section>
 
         <section id="seccion-ataque">
-
             <h1  class="titulo"> MOKEMON 🔥🗻🌀💧</h1>
             <h2 class="eligemokemon"> Elige tu ataque:</h2>
             
-            <div class="bloque">
-                <button id="boton-fuego" class="botones-de-ataque"> Fuego 🔥 </button> 
-                <button id="boton-agua" class="botones-de-ataque"> Agua 💧</button> 
-                <button id="boton-aire" class="botones-de-ataque"> Aire 🌀 </button>
-                <button id="boton-tierra" class="botones-de-ataque"> Tierra 🗻</button>
-            </div> 
-
+            <div id="contenedorataques" class="bloque">  
+            </div>                            
                             
-                                        
-           
-            
             <div class="vidas">
                 <div id="ataquesjugador">
                     <p id= span-mascota-jugador> </p>   <div id="imagenjugador"></div>
-                    <p><span id= span-vidas-jugador>3 </span> vidas 💕</p>
+                    <p><span id= span-vidas-jugador>0 </span> 🏆 Victorias </p>
                     
                 </div>
 
@@ -101,7 +55,7 @@
                 
                 <div id= "ataquesenemigo">
                     <p id= span-mascota-enemigo> </p> <div id="imagenenemigo"></div>
-                    <p> <span id= span-vidas-enemigo>3 </span> vidas 💕  </p></div>
+                    <p> <span id= span-vidas-enemigo>0 </span> 🏆 Victorias  </p></div>
                     
                 </div>                        
             </div>
