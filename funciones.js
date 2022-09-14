@@ -16,6 +16,7 @@ const contenedorataques = document.getElementById ("contenedorataques")
 const seccionmapa = document.getElementById ("mapa")
 const mapa = document.getElementById ("canvamapa")
 
+let jugadorId = null
 let botonataqueagua 
 let botonataquetierra 
 let botonataqueaire 
@@ -259,8 +260,24 @@ function iniciarJuego() {
 
        })         
         botonSeleccionarMascota.addEventListener("click" , seleccionarMascotaJugador)       
-        botonreiniciar.addEventListener ("click" , reiniciar)    
+        botonreiniciar.addEventListener ("click" , reiniciar)   
+        unirse() 
 }
+
+function unirse (){
+        fetch("http://localhost:8080/unirse")
+        .then(function (res) {
+                if (res.ok) {
+                        res.text () 
+                        .then(function (respuesta){
+                                console.log (respuesta)
+                                jugadorId = respuesta
+                        })               }
+        })
+}
+
+
+
 function seleccionarMascotaJugador () {
         seccionelegir.style.display = "none"
         let image =document.createElement ('img')
@@ -310,9 +327,22 @@ function seleccionarMascotaJugador () {
             reiniciar()
         } 
         
+        seleccionarmokepon (nombremascotajugador)
         extraerAtaques(nombremascotajugador)
         seccionmapa.style.display = "flex"
         iniciarmapa () 
+}
+
+function seleccionarmokepon (nombremascotajugador) {
+        fetch (`http://localhost:8080/mokepon/${jugadorId}`, {
+                method:"post",
+                headers:{
+                    "Content-Type" :  "application/json"    
+                }, 
+                body: JSON.stringify({
+                        mokepon: nombremascotajugador
+                })
+        })
 }
 function mascotaenemigo (enemigo) {
     const image =document.createElement ('img')
@@ -499,6 +529,8 @@ function pintarcanva () {
         aquaenemigo.pintarmokepon()
         terrorenemigo.pintarmokepon()
         jugadorobjeto.pintarmokepon()
+        cordenadas(jugadorobjeto.x, jugadorobjeto.y)
+
 
         if (jugadorobjeto.velocidadx !==0 || jugadorobjeto.velocidady !== 0) {
                 colisiones(furiaenemigo)
@@ -512,6 +544,29 @@ function pintarcanva () {
         }
         
 }
+function cordenadas (x, y) {
+        fetch (`http://localhost:8080/mokepon/${jugadorId}/posicion`, {       
+        method:"post",
+                headers: {
+                        "Content-Type" : "application/json"
+                },
+                body: JSON.stringify ({
+                        x,
+                        y
+                })
+        })
+
+        .then (function(res) {
+                if (res.ok) {
+                      res.json()
+                      .then (function ({enemigos}) {
+                        console.log (enemigos)
+                      })
+                }
+        })
+        
+}
+
 function moverderecha() {
         jugadorobjeto.velocidadx= 5  
 }
