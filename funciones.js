@@ -23,6 +23,7 @@ let botonataqueaire
 let botonataquefuego 
 let botones = []
 let mokepones = []
+let mokeponesenemigos = []
 let inputfuria
 let inputaqua 
 let inputterror 
@@ -64,15 +65,15 @@ mapa.width = anchoDelMapa
 mapa.height = alturaQueBuscamos
 
 class Mokepon { 
-        constructor (nombre, foto, vida, x=10, y=20) {
+        constructor (nombre, foto, id= null) {
+                this.id= id
                 this.nombre= nombre
                 this.foto = foto
-                this.vida= vida
                 this.ataques= []
-                this.x= x * mapa.width / 500
-                this.y= y * mapa.height / 500
                 this.ancho= 40
                 this.alto= 40
+                this.x= Math.floor(Math.random() * (mapa.width - 0 + 1) + 0) - this.ancho
+                this.y= Math.floor(Math.random() * (mapa.height - 0 + 1) + 0) - this.alto
                 this.mapafoto= new Image ()
                 this.mapafoto.src= foto
                 this.velocidadx= 0
@@ -91,23 +92,15 @@ class Mokepon {
         }
 }
 
-let furia = new Mokepon ("Furia", "./imagenes/furia.png", 5)
-let aqua = new Mokepon ("Aqua", "./imagenes/aqua.png" , 5)
-let terror = new Mokepon ("Terror", "./imagenes/terror.png" , 5)
-let air = new Mokepon ("Air", "./imagenes/air.png" , 5)
-let feroz = new Mokepon ("Feroz", "./imagenes/feroz.png" , 5)
-let tilone = new Mokepon ("Tilone", "./imagenes/tilone.png" , 5)
-let ayu = new Mokepon ("Ayu", "./imagenes/ayu.png" , 5)
-let armonia = new Mokepon ("Armonia","./imagenes/armonia.png" , 5)
+let furia = new Mokepon ("Furia", "./imagenes/furia.png")
+let aqua = new Mokepon ("Aqua", "./imagenes/aqua.png")
+let terror = new Mokepon ("Terror", "./imagenes/terror.png")
+let air = new Mokepon ("Air", "./imagenes/air.png")
+let feroz = new Mokepon ("Feroz", "./imagenes/feroz.png")
+let tilone = new Mokepon ("Tilone", "./imagenes/tilone.png")
+let ayu = new Mokepon ("Ayu", "./imagenes/ayu.png")
+let armonia = new Mokepon ("Armonia","./imagenes/armonia.png")
 
-let furiaenemigo = new Mokepon ("Furia", "./imagenes/furia.png", 5, 250, 170)
-let aquaenemigo = new Mokepon ("Aqua", "./imagenes/aqua.png" , 5, 250, 400)
-let terrorenemigo = new Mokepon ("Terror", "./imagenes/terror.png" , 5, 410, 420)
-let airenemigo = new Mokepon ("Air", "./imagenes/air.png" , 5, 10, 220)
-let ferozenemigo = new Mokepon ("Feroz", "./imagenes/feroz.png" , 5, 400, 220)
-let tiloneenemigo = new Mokepon ("Tilone", "./imagenes/tilone.png" , 5, 160, 10)
-let ayuenemigo = new Mokepon ("Ayu", "./imagenes/ayu.png" , 5, 440, 20)
-let armoniaenemigo = new Mokepon ("Armonia","./imagenes/armonia.png" , 5, 90, 390)
 
 furia.ataques.push (
         {nombre: "🔥", id: "boton-fuego"},
@@ -117,14 +110,7 @@ furia.ataques.push (
         {nombre: "🌀", id: "boton-aire"},
         {nombre: "🗻", id: "boton-tierra"},
 )
-furiaenemigo.ataques.push (
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "💧", id: "boton-agua"},
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "🗻", id: "boton-tierra"},
-)
+
 aqua.ataques.push (
         {nombre: "💧", id: "boton-agua"},
         {nombre: "💧", id: "boton-agua"},
@@ -133,14 +119,7 @@ aqua.ataques.push (
         {nombre: "🌀", id: "boton-aire"},
         {nombre: "🗻", id: "boton-tierra"},
 )
-aquaenemigo.ataques.push (
-        {nombre: "💧", id: "boton-agua"},
-        {nombre: "💧", id: "boton-agua"},
-        {nombre: "💧", id: "boton-agua"},
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "🗻", id: "boton-tierra"},
-)
+
 terror.ataques.push (
         {nombre: "🗻", id: "boton-tierra"},
         {nombre: "🗻", id: "boton-tierra"},
@@ -149,23 +128,8 @@ terror.ataques.push (
         {nombre: "🌀", id: "boton-aire"},
         {nombre: "💧", id: "boton-agua"},
 )
-terrorenemigo.ataques.push (
-        {nombre: "🗻", id: "boton-tierra"},
-        {nombre: "🗻", id: "boton-tierra"},
-        {nombre: "🗻", id: "boton-tierra"},
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "💧", id: "boton-agua"},
-)
+
 air.ataques.push (
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "💧", id: "boton-agua"},
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "🗻", id: "boton-tierra"},
-)
-airenemigo.ataques.push (
         {nombre: "🌀", id: "boton-aire"},
         {nombre: "🌀", id: "boton-aire"},
         {nombre: "🌀", id: "boton-aire"},
@@ -181,23 +145,7 @@ feroz.ataques.push (
         {nombre: "🌀", id: "boton-aire"},
         {nombre: "🗻", id: "boton-tierra"},
 )
-ferozenemigo.ataques.push (
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "💧", id: "boton-agua"},
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "🗻", id: "boton-tierra"},
-)
 tilone.ataques.push (
-        {nombre: "🗻", id: "boton-tierra"},
-        {nombre: "🗻", id: "boton-tierra"},
-        {nombre: "🗻", id: "boton-tierra"},
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "💧", id: "boton-agua"},
-)
-tiloneenemigo.ataques.push (
         {nombre: "🗻", id: "boton-tierra"},
         {nombre: "🗻", id: "boton-tierra"},
         {nombre: "🗻", id: "boton-tierra"},
@@ -213,14 +161,6 @@ ayu.ataques.push (
         {nombre: "🌀", id: "boton-aire"},
         {nombre: "🗻", id: "boton-tierra"},
 )
-ayuenemigo.ataques.push (
-        {nombre: "💧", id: "boton-agua"},
-        {nombre: "💧", id: "boton-agua"},
-        {nombre: "💧", id: "boton-agua"},
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "🗻", id: "boton-tierra"},
-)
 armonia.ataques.push (
         {nombre: "🌀", id: "boton-aire"},
         {nombre: "🌀", id: "boton-aire"},
@@ -229,14 +169,7 @@ armonia.ataques.push (
         {nombre: "🔥", id: "boton-fuego"},
         {nombre: "🗻", id: "boton-tierra"},
 )
-armoniaenemigo.ataques.push (
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "🌀", id: "boton-aire"},
-        {nombre: "💧", id: "boton-agua"},
-        {nombre: "🔥", id: "boton-fuego"},
-        {nombre: "🗻", id: "boton-tierra"},
-)
+
 mokepones.push (furia, aqua, terror, air, feroz, tilone, ayu, armonia)
 
 function iniciarJuego() {
@@ -263,7 +196,6 @@ function iniciarJuego() {
         botonreiniciar.addEventListener ("click" , reiniciar)   
         unirse() 
 }
-
 function unirse (){
         fetch("http://localhost:8080/unirse")
         .then(function (res) {
@@ -275,9 +207,6 @@ function unirse (){
                         })               }
         })
 }
-
-
-
 function seleccionarMascotaJugador () {
         seccionelegir.style.display = "none"
         let image =document.createElement ('img')
@@ -332,7 +261,6 @@ function seleccionarMascotaJugador () {
         seccionmapa.style.display = "flex"
         iniciarmapa () 
 }
-
 function seleccionarmokepon (nombremascotajugador) {
         fetch (`http://localhost:8080/mokepon/${jugadorId}`, {
                 method:"post",
@@ -353,7 +281,6 @@ function mascotaenemigo (enemigo) {
     nombremascotaenemigo = enemigo  
     ataquemokeponenemigo=  enemigo.ataques
     secuenciaataques()
-
 }  
 function extraerAtaques(nombremascotajugador) {
         let ataques
@@ -401,7 +328,7 @@ function secuenciaataques (){
                                 boton.disabled=true 
                         }  else {alert("hay un error")
                         }
-                        ataquealeatorioenemigo ()
+                        enviarataques ()
                         })                     
         })
 }
@@ -520,29 +447,15 @@ function pintarcanva () {
                 mapa.width,
                 mapa.height
         )
-        furiaenemigo.pintarmokepon()
-        tiloneenemigo.pintarmokepon()
-        armoniaenemigo.pintarmokepon()
-        ayuenemigo.pintarmokepon()
-        airenemigo.pintarmokepon()
-        ferozenemigo.pintarmokepon()
-        aquaenemigo.pintarmokepon()
-        terrorenemigo.pintarmokepon()
-        jugadorobjeto.pintarmokepon()
-        cordenadas(jugadorobjeto.x, jugadorobjeto.y)
-
-
-        if (jugadorobjeto.velocidadx !==0 || jugadorobjeto.velocidady !== 0) {
-                colisiones(furiaenemigo)
-                colisiones(ayuenemigo)
-                colisiones(airenemigo)
-                colisiones(aquaenemigo)
-                colisiones(terrorenemigo)
-                colisiones(tiloneenemigo)
-                colisiones(ferozenemigo)
-                colisiones(armoniaenemigo)
-        }
         
+        jugadorobjeto.pintarmokepon ()
+        cordenadas(jugadorobjeto.x, jugadorobjeto.y)
+        mokeponesenemigos.forEach(function (mokepon) {
+                mokepon.pintarmokepon()
+
+                colisiones (mokepon)
+            })
+
 }
 function cordenadas (x, y) {
         fetch (`http://localhost:8080/mokepon/${jugadorId}/posicion`, {       
@@ -561,12 +474,38 @@ function cordenadas (x, y) {
                       res.json()
                       .then (function ({enemigos}) {
                         console.log (enemigos)
+                         mokeponesenemigos= enemigos.map(function (enemigo) {
+                                let mokeponenemigo = null
+                                const mokeponnombre= enemigo.mokepon.nombre || ""
+                                if (mokeponnombre === "Furia"){
+                                        mokeponenemigo = new Mokepon ("Furia", "./imagenes/furia.png") 
+                                } else if (mokeponnombre === "Terror") {
+                                        mokeponenemigo = new Mokepon ("Terror", "./imagenes/terror.png")
+                                } else if (mokeponnombre === "Aqua") {
+                                        mokeponenemigo = new Mokepon ("Aqua", "./imagenes/aqua.png")
+                                } else if (mokeponnombre === "Air") {
+                                        mokeponenemigo = new Mokepon ("Air", "./imagenes/air.png")
+                                } else if (mokeponnombre === "Feroz") {
+                                        mokeponenemigo = new Mokepon ("Feroz", "./imagenes/feroz.png" )
+                                } else if (mokeponnombre === "Tilone") {
+                                        mokeponenemigo = new Mokepon ("Tilone", "./imagenes/tilone.png")
+                                }else if (mokeponnombre === "Ayu"){
+                                        mokeponenemigo = new Mokepon ("Ayu", "./imagenes/ayu.png")
+                                }else if (mokeponnombre === "Armonia") {
+                                        mokeponenemigo = new Mokepon ("Armonia","./imagenes/armonia.png")
+                                }                              
+
+                                mokeponenemigo.x = enemigo.x
+                                mokeponenemigo.y = enemigo.y
+                                
+                                return mokeponenemigo
+                        })     
+
                       })
                 }
         })
         
 }
-
 function moverderecha() {
         jugadorobjeto.velocidadx= 5  
 }
@@ -616,7 +555,6 @@ function jugadorcompleto() {
             }  
         }
 }
-
 function colisiones (enemigo) {
         const arribaenemigo = enemigo.y
         const abajoenemigo = enemigo.y + enemigo.alto
