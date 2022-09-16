@@ -17,6 +17,7 @@ const seccionmapa = document.getElementById ("mapa")
 const mapa = document.getElementById ("canvamapa")
 
 let jugadorId = null
+let enemigoId = null
 let botonataqueagua 
 let botonataquetierra 
 let botonataqueaire 
@@ -332,6 +333,37 @@ function secuenciaataques (){
                         })                     
         })
 }
+
+function enviarataques () {
+        fetch(`http://localhost:8080/mokepon/${jugadorId}/ataques`, {
+                method: "post",
+                headers: {
+                        "Content-Type" :  "application/json"
+                },
+                body: JSON.stringify({
+                        ataques: ataquejugador
+                })
+        })
+        intervalo = setInterval(obtenerataques, 50)
+        
+
+}
+function obtenerataques () {
+        fetch(`http://localhost:8080/mokepon/${enemigoId}/ataques`)
+        .then (function (res){
+                if (res.ok) {
+                        res.json()
+                                .then (function({ataques}){
+                                       
+                                        
+                                                ataqueenemigo = ataques
+                                                juego ()
+                                        
+                                })
+                }
+        })
+    }
+    
 function ataquealeatorioenemigo () {
         let ataquealeatorio = Math.floor(Math.random() * (ataquemokeponenemigo.length) )
 
@@ -366,6 +398,8 @@ function ataquealeatorioenemigo () {
         juego()
 }
 function juego () {
+        if (ataquejugador.length === 5) {clearInterval (intervalo)}
+       
         
         if ( ataquejugador [ataquejugador.length -1] == ataqueenemigo [ataqueenemigo.length -1]) {
                 resultado = "EMPATE 🤦‍♂️"
@@ -399,6 +433,8 @@ function juego () {
                 ganadasenemigo ++
                 spanvidasenemigo.innerHTML = ganadasenemigo 
         }
+
+        
        mensajes ()
        resultadototal ()
 }
@@ -415,7 +451,7 @@ function mensajes (){
         mataquesenemigo.appendChild(nuevoataqueenemigo)    
 }
 function resultadototal (){
-        if (ataquejugador.length == ataquemokeponenemigo.length) {
+        if (ataquejugador.length == ataqueenemigo.length) {
                 mensajefinal ()
         } else {}
 }
@@ -478,21 +514,21 @@ function cordenadas (x, y) {
                                 let mokeponenemigo = null
                                 const mokeponnombre= enemigo.mokepon.nombre || ""
                                 if (mokeponnombre === "Furia"){
-                                        mokeponenemigo = new Mokepon ("Furia", "./imagenes/furia.png") 
+                                        mokeponenemigo = new Mokepon ("Furia", "./imagenes/furia.png", enemigo.id) 
                                 } else if (mokeponnombre === "Terror") {
-                                        mokeponenemigo = new Mokepon ("Terror", "./imagenes/terror.png")
+                                        mokeponenemigo = new Mokepon ("Terror", "./imagenes/terror.png", enemigo.id)
                                 } else if (mokeponnombre === "Aqua") {
-                                        mokeponenemigo = new Mokepon ("Aqua", "./imagenes/aqua.png")
+                                        mokeponenemigo = new Mokepon ("Aqua", "./imagenes/aqua.png", enemigo.id)
                                 } else if (mokeponnombre === "Air") {
-                                        mokeponenemigo = new Mokepon ("Air", "./imagenes/air.png")
+                                        mokeponenemigo = new Mokepon ("Air", "./imagenes/air.png", enemigo.id)
                                 } else if (mokeponnombre === "Feroz") {
-                                        mokeponenemigo = new Mokepon ("Feroz", "./imagenes/feroz.png" )
+                                        mokeponenemigo = new Mokepon ("Feroz", "./imagenes/feroz.png", enemigo.id )
                                 } else if (mokeponnombre === "Tilone") {
-                                        mokeponenemigo = new Mokepon ("Tilone", "./imagenes/tilone.png")
+                                        mokeponenemigo = new Mokepon ("Tilone", "./imagenes/tilone.png", enemigo.id)
                                 }else if (mokeponnombre === "Ayu"){
-                                        mokeponenemigo = new Mokepon ("Ayu", "./imagenes/ayu.png")
+                                        mokeponenemigo = new Mokepon ("Ayu", "./imagenes/ayu.png", enemigo.id)
                                 }else if (mokeponnombre === "Armonia") {
-                                        mokeponenemigo = new Mokepon ("Armonia","./imagenes/armonia.png")
+                                        mokeponenemigo = new Mokepon ("Armonia","./imagenes/armonia.png", enemigo.id)
                                 }                              
 
                                 mokeponenemigo.x = enemigo.x
@@ -577,6 +613,7 @@ function colisiones (enemigo) {
 
         detenermovimiento ()
         clearInterval (intervalo)
+        enemigoId= enemigo.id
         seccionmapa.style.display = "none"
         seccionataque.style.display = "flex"
         mascotaenemigo(enemigo)

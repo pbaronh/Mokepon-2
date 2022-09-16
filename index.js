@@ -18,6 +18,10 @@ class Jugador {
         this.x= x 
         this.y= y 
     }
+     
+    asignarAtaques(ataques) {
+        this.ataques = ataques
+      }
 }
 class Mokepon {
     constructor(nombre){
@@ -72,6 +76,27 @@ app.post("/mokepon/:jugadorId/posicion", (req,res) => {
         
 
 })
+app.post ("/mokepon/:jugadorId/ataques", (req,res) => {
+    const jugadorId = req.params.jugadorId || ""
+    const ataques = req.body.ataques || []
+    
+    const jugadorindex= jugadores.findIndex((jugador) => jugadorId === jugador.id)
+
+    if (jugadorindex >= 0) {
+        jugadores [jugadorindex].asignarAtaques(ataques)
+    }
+    console.log (jugadores)
+    res.end ()
+})
+
+app.get("/mokepon/:jugadorId/ataques", (req,res) => {
+    const jugadorId = req.params.jugadorId || ""
+    const jugador = jugadores.find((jugador) => jugador.id === jugadorId)
+    res.send({
+        ataques: jugador.ataques || []
+    })
+})
+
 
 app.listen(8080, () => {
     console.log ("Sevidor funcionando")
