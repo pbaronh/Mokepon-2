@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>  Mokemon Juego </title>
+        <link rel="stylesheet" href="./style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <section id="seleccionar-mokemon">
+            <h1  class="titulo"> MOKEMON 🔥🗻🌀💧</h1>
+            <h2 class="eligemokemon"> Elige tu Mokemon: </h2> 
+
+         <div id="contenedortarjetas" class="personajes">          
+        </div>
+            <td colspan="2"> <button class= "botonseleeccion" id="boton-seleccionar-mascota"> Seleccionar </button>    
+        </section>
+        
+        <section id="mapa">
+            <h1  class="titulo"> MOKEMON 🔥🗻🌀💧</h1>
+            <h2> Recorre el mapa con tu mokemon</h2>
+            <canvas id="canvamapa"></canvas>
+            
+                <button class="botondireccion" 
+                ontouchstart="detenermovimiento()" 
+                onmouseup="detenermovimiento()" 
+                ontouchend="moverarriba()" 
+                onmousedown="moverarriba()"> 
+                ⬆ </button>
+            <div id="botonesmover">
+                <button class="botondireccion" 
+                onmouseup="detenermovimiento()" 
+                onmousedown="moverizquierda()"
+                ontouchstart="detenermovimiento()"
+                ontouchend="moverizquierda()">⬅ </button>
+
+                <button class="botondireccion" 
+                onmouseup="detenermovimiento()" 
+                onmousedown="moverabajo()"
+                ontouchstart="detenermovimiento()"
+                ontouchend="moverabajo()" > ⬇ </button>
+
+                <button class="botondireccion" 
+                onmouseup="detenermovimiento()" 
+                onmousedown="moverderecha()"
+                ontouchstart="detenermovimiento()"
+                ontouchend="moverderecha()" > ➡ </button>
+                
+                
+            </div>
+        </section>
+
+        <section id="seccion-ataque">
+            <h1  class="titulo"> MOKEMON 🔥🗻🌀💧</h1>
+            <h2 class="eligemokemon"> Elige tu ataque:</h2>
+            
+            <div id="contenedorataques" class="bloque">  
+            </div>                            
+                            
+            <div class="vidas">
+                <div id="ataquesjugador">
+                    <p id= span-mascota-jugador> </p>   <div id="imagenjugador"></div>
+                    <p><span id= span-vidas-jugador>0 </span> 🏆 Victorias </p>
+                    
+                </div>
+
+                <div id="mensajes"> 
+                    <div id="resultado"> Buena suerte! </div>
+                    <section id="reiniciar">
+                        <button id="boton-reinciar">Reiniciar</button>                    
+                    </section>
+                    
+            </div>    
+                
+                <div id= "ataquesenemigo">
+                    <p id= span-mascota-enemigo> </p> <div id="imagenenemigo"></div>
+                    <p> <span id= span-vidas-enemigo>0 </span> 🏆 Victorias  </p></div>
+                    
+                </div>                        
+            </div>
+
+            <!--Reglas -->
+            
+            
+        </section>
+
+        <script src="./funciones.js"></script>
+    </body>
+</html>
+      
+               
+    
